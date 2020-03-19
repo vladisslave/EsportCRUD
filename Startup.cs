@@ -11,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 
 using EsportMVC.Models;
 using Microsoft.EntityFrameworkCore;
-Microsoft
 
 namespace EsportMVC
 {
