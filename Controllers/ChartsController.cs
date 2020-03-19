@@ -32,5 +32,19 @@ namespace EsportMVC.Controllers
             }
             return new JsonResult(conPlayer);
         }
+
+        [HttpGet("JsonData1")]
+
+        public JsonResult JsonData1()
+        {
+            var games = _context.Games.Include(b => b.Teams).ToList();
+            List<object> gamTeam = new List<object>();
+            gamTeam.Add(new[] { "Країна", "Кількість гравців" });
+            foreach (var c in games)
+            {
+                gamTeam.Add(new object[] { c.Name, c.Teams.Count() });
+            }
+            return new JsonResult(gamTeam);
+        }
     }
 }
