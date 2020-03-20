@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 
 using EsportMVC.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace EsportMVC
 {
@@ -29,6 +30,12 @@ namespace EsportMVC
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<EsportDBContext>(options => options.UseSqlServer(connection));
             services.AddControllersWithViews();
+
+            string connectionIdentity = Configuration.GetConnectionString("IdentityConnection");
+            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connectionIdentity));
+            services.AddControllersWithViews();
+
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,7 +48,6 @@ namespace EsportMVC
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -49,14 +55,15 @@ namespace EsportMVC
 
             app.UseRouting();
 
+
+            app.UseAuthentication(); // підключення аутентифікації
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Countries}/{action=Index}/{id?}");
-                    
+                    pattern: "{controller=Categories}/{action=Index}/{id?}");
             });
         }
     }

@@ -18,8 +18,11 @@ namespace EsportMVC
         [Display(Name = "Назва організації")]
         public string Name { get; set; }
         
+
         public int CountryId { get; set; }
         [Display(Name = "Дата створення")]
+        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Поле повинно бути заповненим")]
         public DateTime? CreationDate { get; set; }
         [Display(Name = "Країна")]
         public virtual Country Country { get; set; }

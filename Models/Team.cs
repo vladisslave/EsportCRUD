@@ -16,6 +16,7 @@ namespace EsportMVC
         [Required(ErrorMessage = "Поле повинно бути заповненим")]
         [Display(Name = "Назва команди")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "Поле повинно бути заповненим")]
         public int GameId { get; set; }
         [Display(Name = "Гра")]
 

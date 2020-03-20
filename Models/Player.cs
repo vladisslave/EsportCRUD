@@ -14,6 +14,8 @@ namespace EsportMVC
         public string Name { get; set; }
         [Required(ErrorMessage = "Поле повинно бути заповненим")]
         [Display(Name = "Дата народження")]
+        [DataType(DataType.Date)]
+        
         public DateTime? Birthdate { get; set; }
         
         [Display(Name = "Країна")]
