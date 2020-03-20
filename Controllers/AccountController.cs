@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using EsportMVC.Models;
-using EsportMVC.ViewModel;
+
 using EsportMVC.ViewModels;
 
 namespace EsportMVC.Controllers

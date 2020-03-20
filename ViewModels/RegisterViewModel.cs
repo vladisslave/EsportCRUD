@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EsportMVC.ViewModel
+namespace EsportMVC.ViewModels
 {
     public class RegisterViewModel
     {
