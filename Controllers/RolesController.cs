@@ -6,9 +6,11 @@ using EsportMVC.ViewModels;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EsportMVC.Controllers
 {
+    [Authorize(Roles = "admin, user")]
 
     public class RolesController : Controller
     {

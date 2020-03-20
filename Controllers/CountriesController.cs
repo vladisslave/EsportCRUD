@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EsportMVC;
 
+
 namespace EsportMVC.Controllers
 {
+    
     public class CountriesController : Controller
     {
         private readonly EsportDBContext _context;
