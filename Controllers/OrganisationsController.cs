@@ -70,6 +70,15 @@ namespace EsportMVC.Controllers
             organisation.CountryId = countryId;
             if (ModelState.IsValid)
             {
+                var c = (from org in _context.Organisations
+                         where org.Name.Contains(organisation.Name)
+                         select org).ToList();
+
+                if (c.Count > 0)
+                {
+                    return RedirectToAction("Index", "Organisations", new { id = countryId, name = _context.Countries.Where(c => c.Id == countryId).FirstOrDefault().Name });
+                }
+                
                 _context.Add(organisation);
                 await _context.SaveChangesAsync();
                 // return RedirectToAction(nameof(Index));
@@ -127,7 +136,7 @@ namespace EsportMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Countries");
             }
             ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Name", organisation.CountryId);
             return View(organisation);
@@ -160,7 +169,8 @@ namespace EsportMVC.Controllers
             var organisation = await _context.Organisations.FindAsync(id);
             _context.Organisations.Remove(organisation);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Countries");
+           // return RedirectToAction("organisation");
         }
 
         private bool OrganisationExists(int id)

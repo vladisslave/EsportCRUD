@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EsportMVC.Controllers
 {
-    [Authorize(Roles = "admin, user")]
+    [Authorize(Roles = "admin")]
 
     public class RolesController : Controller
     {
@@ -26,11 +26,11 @@ namespace EsportMVC.Controllers
 
         public async Task<IActionResult> Edit(string userId)
         {
-            // отримуємо користувача
+            
             User user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                //список ролей користувача
+                
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var allRoles = _roleManager.Roles.ToList();
                 ChangeRoleViewModel model = new ChangeRoleViewModel

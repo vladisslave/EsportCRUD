@@ -14,6 +14,8 @@ namespace EsportMVC
         public string Name { get; set; }
         [Required(ErrorMessage = "Поле повинно бути заповненим")]
         [Display(Name = "Дата народження")]
+        // [Range(1950, 2004, ErrorMessage = "Недопустима дата народження")] ne to
+        [Valid.CurrentDate(ErrorMessage = "Недопустима дата народження")]
         [DataType(DataType.Date)]
         
         public DateTime? Birthdate { get; set; }

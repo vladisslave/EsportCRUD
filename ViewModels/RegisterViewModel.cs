@@ -11,6 +11,7 @@ namespace EsportMVC.ViewModels
         
         [Required]
         [Display(Name = "Рік народження")]
+        [Range(1950, 2020, ErrorMessage = "Недопустима дата народження")]
         public int Year { get; set; }
 
         [Required]

@@ -62,6 +62,8 @@ namespace EsportMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!Valid.IsAllLetters(player.Name))
+                    return RedirectToAction(nameof(Index));
                 _context.Add(player);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

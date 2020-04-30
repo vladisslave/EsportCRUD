@@ -63,6 +63,18 @@ namespace EsportMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                var c = (from coun in _context.Countries
+                         where coun.Name.Contains(country.Name)
+                         select coun).ToList();
+
+                if (c.Count > 0)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                if(!Valid.IsAllLetters(country.Name))
+                    return RedirectToAction(nameof(Index));
+
+
                 _context.Add(country);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -168,44 +180,57 @@ namespace EsportMVC.Controllers
                         await fileExcel.CopyToAsync(stream);
                         using (XLWorkbook workBook = new XLWorkbook(stream, XLEventTracking.Disabled))
                         {
-                            //перегляд усіх листів (в даному випадку категорій)
+                            
                             foreach (IXLWorksheet worksheet in workBook.Worksheets)
                             {
-                                //worksheet.Name - назва категорії. Пробуємо знайти в БД, якщо відсутня, то створюємо нову
+                                if (!Valid.IsAllLetters(worksheet.Name))
+                                    continue;
                                 Country newcoun;
                                 var c = (from coun in _context.Countries
                                          where coun.Name.Contains(worksheet.Name)
                                          select coun).ToList();
+                                
                                 if (c.Count > 0)
                                 {
                                     newcoun = c[0];
                                 }
+                                
                                 else
                                 {
                                     newcoun = new Country();
                                     newcoun.Name = worksheet.Name;
-                                    //newcoun.Books = "from EXCEL"; ???
-                                    //додати в контекст
+                                    
                                     _context.Countries.Add(newcoun);
                                 }
-                                //перегляд усіх рядків                    
+                                                   
                                 foreach (IXLRow row in worksheet.RowsUsed().Skip(1))
                                 {
                                     try
                                     {
                                         Organisation organisation = new Organisation();
                                         organisation.Name = row.Cell(1).Value.ToString();
-                                        int Year = int.Parse(row.Cell(2).Value.ToString());
-                                        int Mounth = int.Parse(row.Cell(3).Value.ToString());
-                                        int Day = int.Parse(row.Cell(4).Value.ToString());
-                                        organisation.CreationDate = new DateTime(Year, Mounth, Day);
+                                         
+
+
+                                        organisation.CreationDate = DateTime.Parse(row.Cell(2).Value.ToString());
+                                        //int Day = Int.Parse(row.Cell(2).Value.ToString());
+                                        //int Mounth = Int.Parse(row.Cell(3).Value.ToString());
+                                        //int Year = Int.Parse(row.Cell(4).Value.ToString());
+                                        //organisation.CreationDate = new DateTime(Year, Mounth, Day);
                                         organisation.Country = newcoun;
+                                        var dcp = (from org in _context.Organisations
+                                                 where org.Name.Contains(organisation.Name)
+                                                 select org).ToList();
+                                        if(dcp.Count > 0)
+                                        {
+                                            continue;
+                                        }
                                         _context.Organisations.Add(organisation);
                                         
                                     }
                                     catch (Exception e)
                                     {
-                                        //logging самостійно :)
+                                        
 
                                     }
                                 }
@@ -253,7 +278,7 @@ namespace EsportMVC.Controllers
                     return new FileContentResult(stream.ToArray(),
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                     {
-                        FileDownloadName = $"library_{DateTime.UtcNow.ToShortDateString()}.xlsx"
+                        FileDownloadName = $"not_a_library_{DateTime.UtcNow.ToShortDateString()}.xlsx"
                     };
                 }
             }
