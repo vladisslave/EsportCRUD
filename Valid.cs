@@ -17,6 +17,17 @@ namespace EsportMVC
             }
             return true;
         }
+        public static bool Datecheck(object value)
+        {
+            var starttime = new DateTime(1950, 1, 1);
+            var endtime = DateTime.Now;
+            var dt = (DateTime)value;
+            if (dt >= starttime && dt <= endtime)
+            {
+                return true;
+            }
+            return false;
+        }
         public class CurrentDateAttribute : ValidationAttribute
         {
             
@@ -34,6 +45,20 @@ namespace EsportMVC
                     return true;
                 }
                 return false;
+            }
+        }
+        public class Isletter : ValidationAttribute
+        {
+
+            public Isletter()
+            {
+            }
+
+            public override bool IsValid(object value)
+            {
+                var str = (string)value;
+
+                return IsAllLetters(str);
             }
         }
 

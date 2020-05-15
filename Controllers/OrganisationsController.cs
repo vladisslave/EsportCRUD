@@ -78,7 +78,11 @@ namespace EsportMVC.Controllers
                 {
                     return RedirectToAction("Index", "Organisations", new { id = countryId, name = _context.Countries.Where(c => c.Id == countryId).FirstOrDefault().Name });
                 }
-                
+                if (!Valid.Datecheck(organisation.CreationDate))
+                {
+                    return RedirectToAction("Index", "Organisations", new { id = countryId, name = _context.Countries.Where(c => c.Id == countryId).FirstOrDefault().Name });
+                }
+
                 _context.Add(organisation);
                 await _context.SaveChangesAsync();
                 // return RedirectToAction(nameof(Index));

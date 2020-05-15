@@ -213,6 +213,10 @@ namespace EsportMVC.Controllers
 
 
                                         organisation.CreationDate = DateTime.Parse(row.Cell(2).Value.ToString());
+                                        if(!Valid.Datecheck(organisation.CreationDate))
+                                        {
+                                            continue;
+                                        }
                                         //int Day = Int.Parse(row.Cell(2).Value.ToString());
                                         //int Mounth = Int.Parse(row.Cell(3).Value.ToString());
                                         //int Year = Int.Parse(row.Cell(4).Value.ToString());

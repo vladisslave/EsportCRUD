@@ -11,6 +11,7 @@ namespace EsportMVC
         public int TeamId { get; set; }
         [Required(ErrorMessage = "Поле повинно бути заповненим")]
         [Display(Name = "Ім'я гравця")]
+        [Valid.Isletter(ErrorMessage = "Недопустиме ім'я")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Поле повинно бути заповненим")]
         [Display(Name = "Дата народження")]

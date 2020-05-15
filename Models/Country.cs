@@ -16,6 +16,7 @@ namespace EsportMVC
         public int Id { get; set; }
         [Required(ErrorMessage = "Поле повинно бути заповненим")]
         [Display(Name = "Назва країни")]
+        [Valid.Isletter(ErrorMessage = "Недопустиме ім'я")]
         public string Name { get; set; }
 
         public virtual ICollection<Organisation> Organisations { get; set; }
