@@ -61,18 +61,9 @@ namespace EsportMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Country country)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !_context.Countries.Any(c => c.Name == country.Name))
             {
-                var c = (from coun in _context.Countries
-                         where coun.Name.Contains(country.Name)
-                         select coun).ToList();
-
-                if (c.Count > 0)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                if(!Valid.IsAllLetters(country.Name))
-                    return RedirectToAction(nameof(Index));
+               
 
 
                 _context.Add(country);

@@ -55,7 +55,7 @@ namespace EsportMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Game game)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !_context.Games.Any(c => c.Name == game.Name))
             {
                 _context.Add(game);
                 await _context.SaveChangesAsync();

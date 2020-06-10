@@ -37,8 +37,9 @@ namespace EsportMVC
 
             public override bool IsValid(object value)
             {
+                var moment = DateTime.Now;
                 var starttime = new DateTime(1950, 1, 1);
-                var endtime = new DateTime(2005, 1, 1);
+                var endtime = new DateTime(moment.Year - 16, moment.Month, moment.Day);
                 var dt = (DateTime)value;
                 if (dt >= starttime && dt < endtime)
                 {
